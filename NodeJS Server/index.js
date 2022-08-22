@@ -1,28 +1,19 @@
-const http = require("http")
+const Server = require('./core/server/Server')
 
-const port = 3580 // TODO: export port to config.
+const server = new Server(3580) // TODO: export port to config.
 
-http.createServer(onRequest).listen(port, onStart)
+server.onStart = (server) => console.log(`Server start on port ${server.getPort()}`)
 
-function FormatAnswer(msg, code) {
-    this.Message = msg;
-    this.Code = code;
-}
+server.onRequest = onRequest;
 
-function onRequest(req, res) {
-    if (req.method === 'GET') {
-        setJsonAnswer(res, 200, 'OK GET')
+server.start();
+
+function onRequest(session) {
+    if (session.getMethod() === 'GET') {
+        // TODO: command processing.
+        session.setErrorNotSupported();
     }
     else {
-        setJsonAnswer(res, 404, `ERROR ${req.method}`)
+        session.setErrorNotSupported();
     }
-}
-
-function onStart() {
-    console.log(`Server start on port ${port}`)
-}
-
-function setJsonAnswer(res, code, answer) {
-    res.writeHead(code, { 'context-type': 'text/json' })
-    res.end(JSON.stringify(new FormatAnswer(answer, code)))
 }
