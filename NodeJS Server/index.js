@@ -11,8 +11,8 @@ server.start();
 
 function onRequest(session) {
     if (session.getMethod() === 'GET') {
-        // TODO: command processing.
-        session.setErrorNotSupported();
+        const query = session.getQuery();
+        session.setSuccessResponse(query)
     }
     else {
         session.setErrorNotSupported();
