@@ -20,6 +20,16 @@ module.exports = class ServerSession {
         this._response.end(JSON.stringify(new ServerResponseTyped('ERROR', 405, 'OperationNotSupportedError')))
     }
 
+    setErrorInvalidRequest() {
+        this._response.writeHead(400, this.headers())
+        this._response.end(JSON.stringify(new ServerResponseTyped('ERROR', 400, 'InvalidRequest')))
+    }
+
+    setErrorNotFound() {
+        this._response.writeHead(404, this.headers())
+        this._response.end(JSON.stringify(new ServerResponseTyped('ERROR', 404, 'NotFound')))
+    }
+
     setSuccessResponse(obj) {
         this._response.writeHead(202, this.headers())
         this._response.end(JSON.stringify(new ServerResponseTyped('SUCCESS', 202, JSON.stringify(obj))))
