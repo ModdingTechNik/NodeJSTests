@@ -14,7 +14,7 @@ module.exports = class Server {
             .listen(this._port, () => this.onStart(this))
     }
 
-    getPort() {
+    get port() {
         return this._port;
     }
 }

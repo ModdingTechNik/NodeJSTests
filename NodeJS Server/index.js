@@ -4,7 +4,7 @@ const Config = require('./core/config/JsonConfig')
 const config = new Config('server.conf.json')
 const server = new Server(config.getValueOrDefault('port', 8000))
 
-server.onStart = (server) => console.log(`Server start on port ${server.getPort()}`)
+server.onStart = (server) => console.log(`Server start on port ${server.port}`)
 server.onRequest = onRequest;
 
 server.start();
