@@ -37,7 +37,9 @@ module.exports = class ServerSession {
 
     headers() {
         return {
-            'context-type': 'text/json'
+            'context-type': 'text/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': 'origin, content-type, accept'
         };
     }
 }
