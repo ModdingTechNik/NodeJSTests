@@ -25,8 +25,9 @@ export default class HttpServer {
         this.globalHeaders.push(header);
     }
 
-    public disableCorsPolicy() : void {
+    public setupPolicy() : void {
         this.addHeader('Access-Control-Allow-Origin', '*')
         this.addHeader('Access-Control-Allow-Headers', 'origin, content-type, accept')
+        this.addHeader('Content-type', 'text/json')
     }
 }

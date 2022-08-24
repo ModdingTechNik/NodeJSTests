@@ -1,4 +1,5 @@
 import {IncomingMessage, OutgoingHttpHeader, ServerResponse} from "http";
+import {ServerJsonResponse, ServerRestResponseType} from "../api/ServerRestResponse";
 
 export default class HttpServerSession {
     private readonly request: IncomingMessage;
@@ -11,8 +12,26 @@ export default class HttpServerSession {
         this.globalHeader = globalHeaders;
     }
 
-    public setErrorNotSupported() : void {
-        this.response.writeHead(405, this.globalHeader)
-        this.response.end()
+    public get method() : string | undefined {
+        return this.request.method;
+    }
+
+    public endErrorNotSupported() : void {
+        this.endJson({
+                code: 405, isCorrect: false,
+                type: ServerRestResponseType.ERROR,
+                message: 'NotSupported', result: { } })
+    }
+
+    public endSuccess(result: any) : void {
+        this.endJson({
+            code: 202, isCorrect: true,
+            type: ServerRestResponseType.SUCCESS,
+            message: 'Success', result: result })
+    }
+
+    private endJson(objectToJson: ServerJsonResponse) : void {
+        this.response.writeHead(objectToJson.code, this.globalHeader)
+        this.response.end(JSON.stringify(objectToJson))
     }
 }

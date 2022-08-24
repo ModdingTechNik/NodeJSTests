@@ -10,7 +10,7 @@ const server: HttpServer = new HttpServer(port)
 server.onStart = onStart
 server.onRequest = onRequest
 
-server.disableCorsPolicy()
+server.setupPolicy()
 server.start()
 
 function onStart(server : HttpServer) : void {
@@ -18,5 +18,10 @@ function onStart(server : HttpServer) : void {
 }
 
 function onRequest(session : HttpServerSession) : void {
-    session.setErrorNotSupported()
+    if (session.method === 'GET') {
+        session.endSuccess(new Date())
+    }
+    else {
+        session.endErrorNotSupported()
+    }
 }
