@@ -34,6 +34,13 @@ export default class HttpServerSession {
             message: 'InvalidRequest', result: { } })
     }
 
+    public endErrorNotFound() : void {
+        this.endJson({
+            code: 404, isCorrect: false,
+            type: ServerRestResponseType.ERROR,
+            message: 'NotFound', result: { } })
+    }
+
     public endSuccess(result: any) : void {
         this.endJson({
             code: 202, isCorrect: true,
