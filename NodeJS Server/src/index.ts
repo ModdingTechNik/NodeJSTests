@@ -1,6 +1,7 @@
 import JsonConfig from "./core/config/JsonConfig";
 import HttpServer from "./core/server/HttpServer";
 import HttpServerSession from "./core/server/HttpServerSession";
+import QueryParser from "./core/utils/QueryParser";
 
 const config: JsonConfig = new JsonConfig('server.conf.json')
 
@@ -19,7 +20,15 @@ function onStart(server : HttpServer) : void {
 
 function onRequest(session : HttpServerSession) : void {
     if (session.method === 'GET') {
-        session.endSuccess(new Date())
+        const parser: QueryParser = new QueryParser(session.url)
+
+        if (parser.hasKey('action')) {
+            const actionName: string = parser.getValue('action')
+            session.endSuccess(actionName);
+        }
+        else {
+            session.endErrorInvalidRequest()
+        }
     }
     else {
         session.endErrorNotSupported()

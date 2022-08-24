@@ -16,11 +16,22 @@ export default class HttpServerSession {
         return this.request.method;
     }
 
+    public get url() : string | undefined {
+        return this.request.url
+    }
+
     public endErrorNotSupported() : void {
         this.endJson({
                 code: 405, isCorrect: false,
                 type: ServerRestResponseType.ERROR,
                 message: 'NotSupported', result: { } })
+    }
+
+    public endErrorInvalidRequest() : void {
+        this.endJson({
+            code: 400, isCorrect: false,
+            type: ServerRestResponseType.ERROR,
+            message: 'InvalidRequest', result: { } })
     }
 
     public endSuccess(result: any) : void {
