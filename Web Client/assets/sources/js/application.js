@@ -14,8 +14,8 @@ async function request(value) {
             const response = await fetch(`http://localhost:3580/?action=${value}`);
             const serverAnswer = await response.json();
 
-            if (response.ok) {
-                return JSON.parse(serverAnswer.message)
+            if (serverAnswer.isCorrect) {
+                return serverAnswer.result
             }
             else {
                 return `${serverAnswer.type} (${serverAnswer.code}) ${serverAnswer.message}`
